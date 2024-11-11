@@ -1,0 +1,46 @@
+
+services:
+#  node:
+#    container_name: plutonsys_node_1
+#    restart: always
+#    tty: false
+#    stdin_open: false
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      target: dev
+#    ports:
+#      - "8089:8089"
+#      - "9229:9229"
+#    volumes:
+#      - ./dist:/home/node/dist
+#      - ./src:/home/node/src
+#      - ./config:/home/node/config
+#      - ./.env:/home/node/.env
+#    networks:
+#      - plutonsysnet
+
+  db:
+    container_name: plutonsys_db_1
+    restart: always
+    build:
+      context: docker/neo4j/
+      dockerfile: Dockerfile
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    environment:
+      NEO4J_AUTH: neo4j/testingneo
+    volumes:
+      - data:/data
+    networks:
+      - plutonsysnet
+
+networks:
+  plutonsysnet:
+    driver: "bridge"
+
+volumes:
+  data:
+    driver: "local"
+
